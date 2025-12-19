@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             HazardSeeder::class,
             ResourceTypeSeeder::class,
             SafetyTipSeeder::class,
-        
+            AdminUserSeeder::class,
         ]);
     }
 }

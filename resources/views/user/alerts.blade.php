@@ -37,7 +37,8 @@
                         </a>
                     </div>
 
-                    <div class="card-body px-4 py-4 bg-light-subtle">
+                    <!-- Make this card body scrollable -->
+                    <div class="card-body px-4 py-4 bg-light-subtle" style="max-height: 500px; overflow-y: auto;">
                         @if ($recentIncidents->count() > 0)
                             <div class="list-group">
                                 @foreach ($recentIncidents as $incident)
@@ -48,10 +49,10 @@
                                                 <h6 class="mb-0 fw-semibold text-dark-emphasis">{{ $incident->title }}</h6>
                                                 <span
                                                     class="badge 
-                                                    @if ($incident->severity === 'high') badge-danger
-                                                    @elseif($incident->severity === 'medium') badge-warning
-                                                    @elseif($incident->severity === 'low') badge-success
-                                                    @else badge-secondary @endif">
+                                            @if ($incident->severity === 'high') badge-danger
+                                            @elseif($incident->severity === 'medium') badge-warning
+                                            @elseif($incident->severity === 'low') badge-success
+                                            @else badge-secondary @endif">
                                                     {{ ucfirst($incident->severity) }}
                                                 </span>
                                             </div>
@@ -74,6 +75,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 @endsection
 

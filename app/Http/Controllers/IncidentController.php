@@ -7,6 +7,10 @@ use App\Models\Incident;
 use App\Models\Resource;
 use App\Models\RiskZone;
 use Illuminate\Support\Facades\Log;
+use App\Models\User;
+use App\Mail\IncidentCreatedMail;
+use Illuminate\Support\Facades\Mail;
+
 
 class IncidentController extends Controller
 {
@@ -51,5 +55,29 @@ public function show(Request $request, $id)
     ]);
 }
 
+public function store(Request $request)
+{
+    // 1) Validate
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'hazard_id' => 'nullable|integer',
+        'type_id' => 'nullable|integer',
+    ]);
 
+    // 2) Create incident
+    $incident = Incident::create($validated);
+
+    // 3) Get all user emails (lightweight)
+    $emails = User::whereNotNull('email')->pluck('email');
+
+    // 4) Send one email per user
+    foreach ($emails as $email) {
+        Mail::to($email)->send(new IncidentCreatedMail($incident));
+    }
+
+    return redirect()
+        ->route('incidents.index')
+        ->with('success', 'Incident created. Emails sent to all users.');
+}
 }

@@ -16,7 +16,7 @@
                 <h5 class="mb-1 fw-bold">{{ $incident->title }}</h5>
                 <p>{{ $incident->description }}</p>
                 <p><strong>Severity:</strong> {{ ucfirst($incident->severity) }}</p>
-                <p><strong>Reported:</strong> {{ $incident->created_at->format('d M Y h:i A') }}</p>
+                <p><strong>Reported:</strong> {{ $incident->created_at->format('d M Y') }}</p>
 
                 <hr>
 

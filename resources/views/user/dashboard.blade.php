@@ -126,6 +126,10 @@
                                             class="btn btn-success text-white rounded-pill fw-semibold">
                                             <i class="fas fa-map-marked-alt me-1"></i> View Risk Map
                                         </a>
+                                        <a href="{{ route('chatbot') }}"
+                                            class="btn btn-dark text-white rounded-pill fw-semibold">
+                                            <i class="fas fa-robot me-1"></i> AI Chat Bot
+                                        </a>
                                     </div>
                                 </div>
                             </div>

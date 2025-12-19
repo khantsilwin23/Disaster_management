@@ -8,6 +8,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\IncidentController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\ChatBotController;
+use App\Http\Controllers\ExportController;
 
 // Home route
 Route::get('/', function () {
@@ -49,6 +53,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/incidents', [AdminController::class, 'incidents'])->name('admin.incidents');
         Route::get('/resources', [AdminController::class, 'resources'])->name('admin.resources');
         Route::get('/hazards', [AdminController::class, 'hazards'])->name('admin.hazards');
+        Route::get('/users/export', [ExportController::class, 'exportUsers'])->name('users.export');
         // routes/web.php
 
        
@@ -68,6 +73,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/incidents', [UserController::class, 'myIncidents'])->name('user.incidents');
         Route::get('/safety-tips', [UserController::class, 'safetyTips'])->name('user.safety-tips');
         Route::get('/user/alerts', [UserController::class, 'myAlerts'])->name('user.alerts');
+        Route::get('/chatbot', [ChatBotController::class, 'index'])->name('chatbot');
+        Route::post('/chatbot/send', [ChatBotController::class, 'send'])->name('chatbot.send');
+
     });
     
     // Profile routes
@@ -75,3 +83,19 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
+    ->middleware('guest')
+    ->name('password.request');
+
+Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+    ->middleware('guest')
+    ->name('password.email');
+
+Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
+    ->middleware('guest')
+    ->name('password.reset');
+
+Route::post('reset-password', [NewPasswordController::class, 'store'])
+    ->middleware('guest')
+    ->name('password.store');

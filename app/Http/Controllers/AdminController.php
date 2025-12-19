@@ -28,11 +28,10 @@ class AdminController extends Controller
         
         // Add these missing data variables
         $recentIncidents = Incident::with(['user', 'hazard'])
-                                    ->latest()
-                                    ->take(10)
-                                    ->get();
-        
-        $recentUsers = User::latest()->take(5)->get();
+                                ->latest()
+                                ->get(); // 5 per page
+    
+    $recentUsers = User::latest()->get();
          // ✅ Add pie chart data here
         $hazardData = Incident::select('hazards.name', DB::raw('COUNT(*) as total'))
             ->join('hazards', 'incidents.hazard_id', '=', 'hazards.id')
